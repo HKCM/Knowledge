@@ -1,0 +1,44 @@
+# Java gitignore
+#Work/java
+```java
+# Compiled class file
+*.class
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Intellij
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Maven
+target/
+
+# Gradle
+build
+.gradle
+
+# Log file
+*.log
+log/
+
+# out
+**/out/
+
+# Mac
+.DS_Store
+
+# others
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+*.pid
+*.orig
+temp/
+```

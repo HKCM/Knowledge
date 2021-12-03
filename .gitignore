@@ -1,0 +1,8 @@
+# 工作相关
+/Job
+
+# Todolist
+/todolist.md
+/todo*
+
+.DS_Store
