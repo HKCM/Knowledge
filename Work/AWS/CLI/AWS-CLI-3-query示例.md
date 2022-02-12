@@ -1,5 +1,6 @@
 以下通过官方示例进行`query`参数选项的演示。
 
+### 基础示例
 描述了连接到单独 Amazon EC2 实例的两个 Amazon Elastic Block Store (Amazon EBS) 卷
 ```shell
 $ aws ec2 describe-volumes
@@ -50,89 +51,73 @@ $ aws ec2 describe-volumes
 可以选择使用以下命令从 Volumes 列表中仅显示第一个卷
 
 ```shell
+# 仅显示第一个卷
 $ aws ec2 describe-volumes --query 'Volumes[0]'
-{
-    "AvailabilityZone": "us-west-2a",
-    "Attachments": [
-        {
-            "AttachTime": "2013-09-17T00:55:03.000Z",
-            "InstanceId": "i-a071c394",
-            "VolumeId": "vol-e11a5288",
-            "State": "attached",
-            "DeleteOnTermination": true,
-            "Device": "/dev/sda1"
-        }
-    ],
-    "VolumeType": "standard",
-    "VolumeId": "vol-e11a5288",
-    "State": "in-use",
-    "SnapshotId": "snap-f23ec1c8",
-    "CreateTime": "2013-09-17T00:55:03.000Z",
-    "Size": 30
-}
-```
 
-还可以使用通配符表示法 [*]循环访问列表中的所有卷，同时筛选出每个卷中的三个元素：`VolumeId`、`AvailabilityZone` 和 `Size`。词典表示法要求为每个 JSON 键提供一个别名，如：`{Alias1:JSONKey1,Alias2:JSONKey2}`。词典本身是无序的，因此，此种结构中的键/别名的顺序可能不一致。
+# 显示前三个卷
+$ aws ec2 describe-volumes --query 'Volumes[:3]'
 
-```shell
-$ aws ec2 describe-volumes --query 'Volumes[*].{ID:VolumeId,AZ:AvailabilityZone,Size:Size}'
+# 过滤VolumeId和Size
+$ aws ec2 describe-volumes --query 'Volumes[:3].[VolumeId,Size]'
+
+# 过滤VolumeId和Size并添加名字.词典本身是无序的，因此，此种结构中的键/别名的顺序可能不一致。
+$ aws ec2 describe-volumes --query 'Volumes[:3].{ID:VolumeId,AZ:AvailabilityZone,Size:Size}'
 [
-    {
-        "AZ": "us-west-2a",
-        "ID": "vol-e11a5288",
-        "Size": 30
-    },
+    ...
     {
         "AZ": "us-west-2a",
         "ID": "vol-2e410a47",
         "Size": 8
     }
+    ...
 ]
-```
 
-还可以将键链接起来（如 `key1.key2[0].key3`）来筛选深度嵌套在结构中的元素。以下示例利用 `Attachments[0].InstanceId` 键演示此功能，别名指定为简单的 InstanceId。
-```shell
+# 筛选深度嵌套在结构中的元素 InstanceId:Attachments[0].InstanceId
 $ aws ec2 describe-volumes --query 'Volumes[*].{ID:VolumeId,InstanceId:Attachments[0].InstanceId,AZ:AvailabilityZone,Size:Size}'
-[
-    {
-        "InstanceId": "i-a071c394",
-        "AZ": "us-west-2a",
-        "ID": "vol-e11a5288",
-        "Size": 30
-    },
-    {
-        "InstanceId": "i-4b41a37c",
-        "AZ": "us-west-2a",
-        "ID": "vol-2e410a47",
-        "Size": 8
-    }
-]
+
 ```
+
 
 ### 筛选结果
 
 要按特定字段的值筛选结果，请使用 JMESPath "?" 运算符。以下示例查询仅输出 us-west-2a 可用区中的卷。并且在指定诸如以上 JMESPath 查询表达式中的 "us-west-2" 这样的文字值时，必须将该值放在反引号 (` `) 中，以便使它能够正确读取。
 
+#### 特定值筛选
 ```shell
-$ aws ec2 describe-volumes \
-    --query 'Volumes[?AvailabilityZone==`us-west-2a`]'
+
+# AvailabilityZone 必须为 us-west-2a
+$ aws ec2 describe-volumes --query 'Volumes[?AvailabilityZone==`us-west-2a`]'
+
+# AvailabilityZone 必须为 us-west-2a 只要前两个完整结果
+$ aws ec2 describe-volumes --query 'Volumes[?AvailabilityZone==`us-west-2a`] | [:3]'
+
+# AvailabilityZone 必须为 us-west-2a 只要前两个结果的VolumeId,Size
+$ aws ec2 describe-volumes --query 'Volumes[?AvailabilityZone==`us-west-2a`] | [:3].[VolumeId,Size]'
 ```
 
-### 大于某值
 
-以下示例列出了 Amazon EC2 卷。该服务在 us-west-2a 可用区中生成所有附加的卷的列表。--query 参数进一步将输出限制为只有 Size 值大于 50 的卷，并且仅显示具有用户定义名称的指定字段。
+#### boolean值筛选
+```shell
+# IsEgress 本身是boolean值,IsEgress:true 代表是出站规则, 以下命令获取不是IsEgress的rules,即获取入站睿哲
+$ aws ec2 describe-security-group-rules \
+--filter Name="group-id",Values="sg-0c77d0b4e1f8ccdda" \
+--query "SecurityGroupRules[? ! IsEgress].{sgr:SecurityGroupRuleId,Protocol:IpProtocol,FromPort:FromPort,ToPort:ToPort,IP:CidrIpv4,Description:Description}" \
+--output table
+```
+
+
+#### 大于小于某值
 ```shell
 $ aws ec2 describe-volumes \
     --filters "Name=availability-zone,Values=us-west-2a" "Name=status,Values=attached" \
     --query 'Volumes[?Size > `50`].{Id:VolumeId,Size:Size,Type:VolumeType}'
-[
-    {
-        "Id": "vol-0be9bb0bf12345678",
-        "Size": 80,
-        "Type": "gp2"
-    }
-]
+
+# 大于某个日期
+$ aws ec2 describe-snapshots --owner self \
+    --output json \
+    --query 'Snapshots[?StartTime>=`2018-02-07`].{Id:SnapshotId,VId:VolumeId,Size:VolumeSize}' \
 ```
+
 
 以下示例显示如何列出在指定日期之后创建的所有快照，从而在输出中仅包括几个可用字段。
 ```shell
@@ -157,11 +142,8 @@ $ aws ec2 describe-images \
     --query "sort_by(Images, &CreationDate)[-1].ImageId" \
     --output text
 ami-00ced3122871a4921
-```
 
-以下示例列出了创建的五个最新 Amazon 系统映像 (AMI)，使用`reverse`从最新到最旧排序。
-
-```shell
+# 以下示例列出了创建的五个最新 Amazon 系统映像 (AMI)，使用`reverse`从最新到最旧排序。
 $ aws ec2 describe-images \
     --owners self \
     --query 'reverse(sort_by(Images,&CreationDate))[:5].{id:ImageId,date:CreationDate}'
@@ -188,12 +170,9 @@ $ aws ec2 describe-images \
     }
 
 ]
-```
 
-以下示例列出了最新的具有特殊名字的Instance，使用`reverse`从最新到最旧排序。
-
-```shell
-aws ec2 describe-instances \
+# 列出了最新的具有特殊名字的Instance，使用`reverse`从最新到最旧排序。
+$ aws ec2 describe-instances \
     --filters "Name=tag:Name,Values=new-stack" \
     --query "reverse(sort_by(Reservations[0].Instances,&LaunchTime))[0].{I0:InstanceId,I1:PublicIpAddress,I2:LaunchTime}"
 ```

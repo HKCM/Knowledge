@@ -12,8 +12,31 @@ no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please l
 解决方法:
 
 ```shell
+[ec2-user@ip-10-4-7-51 ~]$ sudo cp /root/.ssh/authorized_keys /root/.ssh/authorized_keys.bak
 [ec2-user@ip-10-4-7-51 ~]$ sudo cp .ssh/authorized_keys /root/.ssh/authorized_keys
 ```
 
+### type: <class 'str'>, valid types: <class 'dict'>
+```
+aws ec2 modify-security-group-rules \
+> --group-id sg-0c77d0b4e1f8ccdda \
+> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule={IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=171.94.254.167/32,Description=karl-home}
 
+Parameter validation failed:
+Invalid type for parameter SecurityGroupRules[0].SecurityGroupRule, value: IpProtocol=tcp, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[1].SecurityGroupRule, value: FromPort=22, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[2].SecurityGroupRule, value: ToPort=22, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[3].SecurityGroupRule, value: CidrIpv4=171.94.254.167/32, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[4].SecurityGroupRule, value: Description=karl-home, type: <class 'str'>, valid types: <class 'dict'>
+```
+
+解决方案: 对`SecurityGroupRule`加引号
+```shell
+aws ec2 modify-security-group-rules \
+> --group-id sg-0c77d0b4e1f8ccdda \
+> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule="{IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=171.94.254.167/32}"
+{
+    "Return": true
+}
+```
 

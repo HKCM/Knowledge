@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      # 最常见的用法
+      tier: frontend
+      # 某个 label 存在
+      # - key: app
+      #   operator: Exists
+      # label 的值在某个列表中
+      # - key: app
+      #   operator: In
+      #   values:
+      #   - spring-k8s
+      #   - hahahah
+      # label 的值不在某个列表中
+      # - key: app
+      #   operator: NotIn
+      #   values:
+      #   - spring-k8s
+      #   - hahahah
+      # 某个 label 不存在
+      # - key: app
+      #   operator: DoesNotExist
+      #   value: hahahah
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        version: v1
+    spec:
+      containers:
+      - name: myapp
+        image: wangyanglinux/myapp:v1
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 80

@@ -31,7 +31,7 @@ aws ec2 run-instances \
 ```
 
 
-
+创建多个具有不同私有地址的EC2
 ```shell
 #!/bin/bash
 for i in 52 53 54 55 59

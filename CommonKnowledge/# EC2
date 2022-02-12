@@ -1,0 +1,70 @@
+# EC2
+
+## Amazon EC2 的功能
+
+### AMI
+
+一旦启动实例时，便会收取最低一分钟的使用费用。一分钟之后，仅按使用的秒数收费。例如，如果运行一个实例 20 秒后停止实例，将按一整分钟收取费用。如果运行一个实例 3 分 40 秒，将收取 3 分 40 秒的使用费用。
+
+在AMI中过滤Owner : 和 Amazon images 可仅显示 Amazon 的公有映像
+
+#### 使用共享AMI注意事项:
+https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/usingsharedamis-finding.html#usingsharedamis-confirm
+如果共享 AMI 带有加密快照，拥有者必须同时与您共享一个或多个密钥。
+
+#### 如何共享AMI:
+https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/sharingamis-explicit.html#sharingamis-console
+
+#### AMI共享URL
+
+使用带有以下信息的 URL可以让被共享方直接使用，其中 region 表示您的 AMI 驻留的区域：
+https://console.aws.amazon.com/ec2/v2/home?region=`region`#LaunchInstanceWizard:ami=`ami_id` 
+
+#### Amazon Data Lifecycle Manager (Amazon DLM)
+
+能够定期
+博客：
+https://aws.amazon.com/cn/blogs/storage/automating-amazon-ebs-snapshot-and-ami-management-using-amazon-dlm/
+
+#### 使用 S3 存储和还原 AMI
+复制AMI到其他Region后，应更新任何数据库连接字符串或相似的应用程序配置数据，以指向适当的资源。否则，从目标区域上的新 AMI 中启动的实例可能仍会使用源区域中的资源，这可能会影响性能和成本。
+
+将 AMI 从一个 AWS 分区复制到另一个 AWS 分区,AMI 存储和还原 API 的工作原理
+要使用 S3 存储和还原 AMI，请使用以下 API：
+
+##### CreateStoreImageTask – 将 AMI 存储在 S3 存储桶中
+
+API 创建一个任务，从 AMI 及其快照中读取所有数据，然后使用 S3 分段上传将数据存储在 S3 对象中。API 获取 AMI 的所有组件，包括大多数非区域特定的 AMI 元数据以及 AMI 中包含的所有 EBS 快照，然后将它们打包到 S3 内的单个对象中。数据将作为上传流程的一部分进行压缩，以减少 S3 中使用的空间量，因此 S3 中的对象可能小于 AMI 中快照大小总和。
+
+##### DescribeStoreImageTasks – 提供 AMI 存储任务的进度
+
+DescribeStoreImageTasks API 描述 AMI 存储任务的进度。您可以描述指定 AMI 的任务。如果未指定 AMI，则会获得过去 31 天内处理的所有存储映像任务的分页列表。
+
+对于每个 AMI 任务，响应会指示任务是 InProgress、Completed 还是 Failed。对于任务 InProgress，响应会将估计进度显示为百分比值。
+
+任务按反向的时间顺序列出。
+
+目前，只能查看上个月的任务。
+
+##### CreateRestoreImageTask – 从 S3 存储桶还原 AMI
+https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ami-store-restore.html#how-it-works
+
+
+#### 注销 Linux AMI
+
+注销AMI还要记得删除Snapshot。 
+https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/deregister-ami.html
+
+
+
+#### 置放群组
+
+启动新的 EC2 实例时，EC2 服务会尝试以某种方式放置实例，以便将所有实例分布在基础硬件上以最大限度减少相关的故障。
+
+置放群组会将EC2放在同一个Available Zone（类似eu-east-1a）中以降低网络开销，适合在内部进行网络交换和运算的程序。
+
+- 集群 – 将一个可用区中靠近的实例打包在一起。通过使用该策略，工作负载可以实现所需的低延迟网络性能，以满足 HPC 应用程序通常使用的紧密耦合的节点到节点通信的要求。（同一个Available Zone）
+
+- 分区 – 将实例分布在不同的逻辑分区上，以便一个分区中的实例组不会与不同分区中的实例组使用相同的基础硬件（同一个Available Zone不同的分区中，例如同一个机房的A区和B区）。该策略通常为大型分布式和重复的工作负载所使用，例如，Hadoop、Cassandra 和 Kafka。
+
+- 分布 – 将一小组实例严格放置在不同的基础硬件上以减少相关的故障（同一个Available Zone的不同机架上）。

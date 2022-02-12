@@ -2,11 +2,6 @@
 
 ## 描述: 常用EC2 CLI
 
-
-[toc]
-
-
-
 #### create keypair
 ```shell
 aws ec2 create-key-pair --key-name MyKeyPair --query 'KeyMaterial' --output text > MyKeyPair.pem
@@ -232,6 +227,7 @@ aws ec2 run-instances
     --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 
     --instance-type m5.xlarge 
     --key-name MyKeyPair
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=webserver,Value=production}]' 'ResourceType=volume,Tags=[{Key=cost-center,Value=cc123}]'
 ```
 
 #### 查找当前 Ubuntu Server 16.04 LTS AMI

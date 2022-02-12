@@ -23,3 +23,5 @@ AWS CloudfrontIP: http://d7uri8nf7uskq.cloudfront.net/tools/list-cloudfront-ips
 
 AWS 服务授权参考: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awscloudformation.html
 
+AWS Query 参数参考: https://jmespath.org/tutorial.html 
+
