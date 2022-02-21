@@ -1,8 +1,4 @@
 
-### 描述: Bash基础（附1）sed和awk
-
-### sed
-
 简单示例，
 ```shell
 $ cat data1.txt 
@@ -53,15 +49,15 @@ sed -n 's/test/trial/p' data5.txt
 sed 's/test/trial/w test.txt' data5.txt
 ```
 
-#### 指定位置替换
+### 指定位置替换
 ```shell
-sed 's/dog/cat/' data1.txt # 只作用于第二行
+sed 's/dog/cat/' data1.txt # 只作用于每行的第一次
 sed '2s/dog/cat/' data1.txt # 只作用于第二行
 sed '2,3s/dog/cat/' data1.txt # 作用于2-3行
 sed '2,$s/dog/cat/' data1.txt # 第二行至末行
 ```
 
-#### 文本模式过滤
+### 文本模式过滤
 
 文本模式过滤模式在前方写入pattern，会匹配具有这个pattern的行
 示例
@@ -76,7 +72,7 @@ sed '2{s/Two/2/;s/test/real/}' data2.txt
 sed '3,${s/Two/2/;s/test/real/}' data2.txt
 ```
 
-#### 删除行
+### 删除行
 ```shell
 # 删除单行
 sed '3d' data6.txt
@@ -86,7 +82,7 @@ sed '3,$d' data2.txt
 sed '/number 1/d' data6.txt
 ```
 
-#### 插入和追加
+### 插入和追加
 ```shell
 sed '1i\Test Line 1' data2.txt 
 sed '$a\Test Last Line ' data2.txt 
@@ -94,7 +90,7 @@ sed '$a\Test Last Line ' data2.txt
 # 通过读取文件的形式追加
 $ cat data12.txt
 This is an added line.
-This is the second added line. $
+This is the second added line.
 $ sed '3r data12.txt' data6.txt 
 This is line number 1.
 This is line number 2.
@@ -193,9 +189,9 @@ echo "1234567" | sed ': start ; s/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/;t start'
 1,234,567
 ```
 
-#### sed实用命令
-1. 加倍行间距
-```shell
+### sed实用命令
+#### 加倍行间距
+```shells
 # 除最后一行之外将保持空间中的空白加入到模式空间
 sed '$!G' data4
 
@@ -203,115 +199,51 @@ sed '$!G' data4
 sed '/^$/d ; $!G' data6.txt
 ```
 
-2. 给文件添加行号
+#### 给文件添加行号
 ```shell
 sed '=' data4 | sed 'N;s/\n/ /'
 ```
 
-3. 打印尾行
+#### 打印尾行
 ```shell
 # tail -n 1
 sed -n '$p' data2.txt
 ```
 
-4. 删除连续的空白行
+#### 删除连续的空白行
 无论文件的数据行之间出现了多少空白行，在输出中只会在行间保留一个空白行。
 
 ```shell
 # 区间是/./到/^$/。区间的开始地址会匹配任何含有至少一个字符的行。区间的结束地址会 匹配一个空行。在这个区间内的行不会被删除。
 sed '/./,/^$/!d' data8.txt
 ```
-5. 删除开头的空白行
+
+#### 删除开头的空白行
 ```shell
 # 区间从含有字符的行开始，一直到数据流结 束
 sed '/./,$!d' data9.txt
 ```
 
-6. 删除HTML标签
+
+
+#### 删除行首空格
+```shell
+sed 's/^[ ]*//g' filename
+sed 's/^ *//g' filename
+sed 's/^[[:space:]]*//g' filename
+```
+
+#### 删除HTML标签
 ```shell
 # 排除大于号，否则会进行贪婪匹配，会删除类似<b>first</b>这样的加粗文本
 sed 's/<[^>]*>//g ; /^$/d' data11.txt
 ```
 
-### awk
-简单示例
+### 问题
+
+**sed: -i may not be used with stdin**
+
+MAC系统上sed使用时需要 
 ```shell
-$ cat data2.txt
-One line of test text.
-Two lines of test text.
-Three lines of test text.
-
-$ awk '{print $1}' data2.txt
-One
-Two
-Three
-
-# -F指定分隔符
-$ awk -F: '{print $1}' /etc/passwd
-root
-daemon
-bin
-sys
-sync
-games
-...
-
-$ echo "My name is Rich" | awk '{$4="Christine"; print $0}' 
-My name is Christine
-```
-
-跟sed编辑器一样，gawk编辑器允许将程序存储到文件中，然后再在命令行中引用
-```shell
-$ cat script.awk
-{print $1 " home directory is " $6}
-
-$ awk -F: -f script.awk /etc/passwd
-root home directory is /root
-daemon home directory is /usr/sbin
-bin home directory is /bin
-sys home directory is /dev
-sync home directory is /bin
-games home directory is /usr/games
-man home directory is /var/cache/man
-
-# 写作还可以多行,这里还使用了变量
-$ cat script3.awk
-{
-text = "'s home directory is " 
-print $1 text $6
-}
-
-```
-
-BEGIN和END
-```shell
-$ awk 'BEGIN {print "Hello"};{print $0};END {print "BYE"}' data2.txt 
-Hello
-One line of test text.
-Two lines of test text.
-Three lines of test text.
-BYE
-
-
-$ cat data1
-data11,data12,data13,data14,data15
-data21,data22,data23,data24,data25
-data31,data32,data33,data34,data35
-# 以逗号为分隔符分隔原数据，将"-"号作为输出分隔符，只输出$1 $2 $3
-$ awk 'BEGIN {FS=",";OFS="-"} {print $1,$2,$3}' data1
-data11-data12-data13
-data21-data22-data23
-data31-data32-data33
-```
-
-#### 
-```shell
-$ cat data1b
-1005.3247596.37
-115-2.349194.00
-05810.1298100.1
-$ awk 'BEGIN{FIELDWIDTHS="3 5 2 5"}{print $1,$2,$3,$4}' data1b 
-100 5.324 75 96.37
-115 -2.34 91 94.00 
-058 10.12 98 100.1
+sed -i '' 's/a/b/' filename
 ```

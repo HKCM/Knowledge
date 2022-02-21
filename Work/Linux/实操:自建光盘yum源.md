@@ -31,7 +31,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7  # 指定gpg key位置
 ```
 
 
-[全文有任何错误或疏漏，烦请不吝指正](https://github.com/HKCM/HKCM.github.io/issues)
 
 本文采用知识共享 署名-相同方式共享 4.0协议
 

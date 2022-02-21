@@ -30,7 +30,7 @@ Instance Spot价格: https://aws.amazon.com/cn/ec2/spot/pricing/
 # owners 099720109477 这个是AWS的权威账号
 # 查询Amazon Linux 2 镜像ID
 aws ec2 describe-images \
-    --profile int-xmn \
+    --profile myprofile \
     --region eu-west-1 \
     --owners 099720109477 \
     --filters "Name=name,Values=amzn2*gp2" "Name=virtualization-type,Values=hvm" "Name=root-device-type,Values=ebs" \
@@ -39,7 +39,7 @@ aws ec2 describe-images \
 
 # 查询Ubuntu镜像ID,可以更改版本号查询
 aws ec2 describe-images \
-    --profile int-xmn \
+    --profile myprofile \
     --region eu-west-1 \
     --owners 099720109477 \
     --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu*18.04*server*" "Name=virtualization-type,Values=hvm" "Name=root-device-type,Values=ebs" \
@@ -48,7 +48,7 @@ aws ec2 describe-images \
 
 # 描述一个镜像
 aws ec2 describe-images \
-    --profile int-xmn \
+    --profile myprofile \
     --region eu-west-1 \
     --image-ids ami-example11864d6bb \
     --query "Images[-4:-1].{id:ImageId,name:Name,date:CreationDate,owner:OwnerId}"
@@ -58,7 +58,7 @@ aws ec2 describe-images \
 
 ```shell
 aws ec2 run-instances \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --image-id ami-example52e6c9f9 \
 --instance-type t4g.small \
@@ -68,7 +68,7 @@ aws ec2 run-instances \
 --security-group-ids sg-example4e1f8ccdda \
 --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":20,"DeleteOnTermination":true,"VolumeType":"gp2"}}]' \
 --instance-market-options 'MarketType=spot,SpotOptions={MaxPrice=0.014,SpotInstanceType=one-time}' \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=local-test},{Key=Team,Value=int-xmn},{Key=Environment,Value=int-xmn},{Key=owner,Value=test-user}]'
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=local-test},{Key=Team,Value=myprofile},{Key=Environment,Value=myprofile},{Key=owner,Value=test-user}]'
 
 # 用完不要忘记关机
 ```
@@ -77,7 +77,7 @@ aws ec2 run-instances \
 
 ```shell
 aws ec2 describe-instances \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --filters "Name=tag:Name,Values=local-test" \
 --query 'Reservations[*].Instances[*].{I0:InstanceId,I2:lockDeviceMappings[*].Ebs.VolumeId,I1:Placement.AvailabilityZone}' \
@@ -90,7 +90,7 @@ Spot 实例 不能停止
 
 ```shell
 aws ec2 stop-instances \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --instance-ids ${InstanceId}
 ```
@@ -99,7 +99,7 @@ aws ec2 stop-instances \
 
 ```shell
 aws ec2 wait instance-stopped \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --instance-ids ${InstanceId}
 ```
@@ -108,7 +108,7 @@ aws ec2 wait instance-stopped \
 
 ```shell
 aws ec2 start-instances \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --instance-ids ${InstanceId}
 ```
@@ -117,7 +117,7 @@ aws ec2 start-instances \
 
 ```shell
 aws ec2 terminate-instances \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --instance-ids i-12345678
 ```
@@ -133,7 +133,7 @@ curl checkip.amazonaws.com
 ```shell
 # ?IsEgress=`false` 只查询入站规则
 aws ec2 describe-security-group-rules \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --filter Name="group-id",Values="sg-example4e1f8ccdda" \
 --query "SecurityGroupRules[? ! IsEgress].{sgr:SecurityGroupRuleId,Protocol:IpProtocol,FromPort:FromPort,ToPort:ToPort,IP:CidrIpv4,Description:Description}" \
@@ -146,10 +146,10 @@ aws ec2 describe-security-group-rules \
 
 ```shell
 aws ec2 modify-security-group-rules \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --group-id sg-example4e1f8ccdda \
---security-group-rules SecurityGroupRuleId=sgr-example007ba61131,SecurityGroupRule="{IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=171.94.254.167/32,Description=local-home}"
+--security-group-rules SecurityGroupRuleId=sgr-example007ba61131,SecurityGroupRule="{IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=100.100.100.100/32,Description=local-home}"
 
 #--security-group-rules SecurityGroupRuleId=string,SecurityGroupRule="{IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string}"
 ```
@@ -158,29 +158,29 @@ aws ec2 modify-security-group-rules \
 
 ```shell
 aws ec2 authorize-security-group-ingress \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --group-id sg-example4e1f8ccdda \
---ip-permissions IpProtocol=tcp,FromPort=22,ToPort=22,IpRanges="[{CidrIp=171.94.254.166/32,Description=local-test}]"
+--ip-permissions IpProtocol=tcp,FromPort=22,ToPort=22,IpRanges="[{CidrIp=100.100.100.100/32,Description=local-test}]"
 ```
 
 ### 删除Security Group IP
 
 ```shell
 aws ec2 revoke-security-group-ingress \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
---group-id sg-0c77d0b4e1f8ccdda \
+--group-id sg-example4e1f8ccdda \
 --protocol tcp \
 --port 22 \
---cidr 171.94.254.166/32
+--cidr 100.100.100.100/32
 ```
 
 ### 获取CloudFormation的Output
 
 ```shell
 aws cloudformation describe-stacks \
---profile int-xmn \
+--profile myprofile \
 --region eu-west-1 \
 --stack-name stackName \
 --query 'Stacks[0].Outputs[].{OutputKey:OutputKey,OutputValue:OutputValue}' \
@@ -196,7 +196,7 @@ aws cloudformation describe-stacks \
 脚本运行参数`cleanup_changset.sh -p <aws_profile> -r <region> -s <stack_name>`
 
 ```shell
-
+#!/bin/env bash
 # cleanup_changeset (Profile, Stack-name, [Region])
 # It can clear the failed changeset in the stack, but need to change env/environment.yml, 
 # add delete ChangeSet Action "DeleteChangeSet"
@@ -255,3 +255,13 @@ fi
 
 cleanup_changeset ${profile} ${region} ${stackname}
 ```
+
+### 解密AWS Error Message
+
+创建AWS资源需要Team 和Environment 标签
+
+```shell
+aws sts --profile myprofile decode-authorization-message --encoded-message SKHJDGJweajs_as
+```
+
+然后去这个网站解析JSON https://www.bejson.com/explore/index_new/

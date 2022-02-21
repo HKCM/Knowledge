@@ -194,5 +194,4 @@ $ touch tmp_{1..10}.txt
 $ find ./ -name "*_*" | while read id; do mv $id ${id/_/-}; done
 ```
 
-[全文有任何错误或疏漏，烦请不吝指正](https://github.com/HKCM/HKCM.github.io/issues)
 

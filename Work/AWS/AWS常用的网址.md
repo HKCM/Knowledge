@@ -25,3 +25,4 @@ AWS 服务授权参考: https://docs.aws.amazon.com/service-authorization/latest
 
 AWS Query 参数参考: https://jmespath.org/tutorial.html 
 
+AWS 服务限制: https://console.aws.amazon.com/servicequotas/home/services

@@ -418,12 +418,12 @@ aws s3api abort-multipart-upload --bucket DOC-EXAMPLE-BUCKET --key large_test_fi
 #### 列出对象
 ```shell
 # 只列出目录
-aws s3 --profile int-xmn --region us-east-1 ls s3://karl-test-us/North\ America/USA/
+aws s3 --profile myprofile --region us-east-1 ls s3://karl-test-us/North\ America/USA/
                            PRE A/
                            PRE B/
                            PRE C/
 
-aws s3api --profile int-xmn --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/' --delimiter /
+aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/' --delimiter /
 {
     "CommonPrefixes": [
         {
@@ -439,12 +439,12 @@ aws s3api --profile int-xmn --region us-east-1 list-objects-v2 --bucket karl-tes
 }
 
 # 列出对象
-aws s3 --profile int-xmn --region us-east-1 ls s3://karl-test-us/North\ America/USA/ --recursive
+aws s3 --profile myprofile --region us-east-1 ls s3://karl-test-us/North\ America/USA/ --recursive
 2020-12-20 19:50:24          0 North America/USA/A/A/1.txt
 2020-12-20 19:50:24          0 North America/USA/B/A/1.txt
 2020-12-20 19:50:24          0 North America/USA/C/A/1.txt
 
-aws s3api --profile int-xmn --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/'
+aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/'
 {
     "Contents": [
         {
@@ -509,9 +509,9 @@ aws s3 rm s3://mybucket/test2.txt
 
 aws s3 rm s3://mybucket --recursive
 
-aws s3 --profile int-xmn --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *.jpg
-aws s3 --profile int-xmn --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude prefix/*
-aws s3 --profile int-xmn --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *tag*
+aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *.jpg
+aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude prefix/*
+aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *tag*
 ```
 
 #### 生成预签名对象
@@ -620,8 +620,6 @@ aws s3api put-object-acl --bucket arn:aws:s3:us-west-2:123456789012:accesspoint/
 
 
 以上完全基于[AWS官方文档](https://docs.aws.amazon.com/)，并结合自身理解创作
-
-[全文有任何错误或疏漏，烦请不吝指正](https://github.com/HKCM/HKCM.github.io/issues)
 
 本文采用知识共享 署名-相同方式共享 3.0协议
 

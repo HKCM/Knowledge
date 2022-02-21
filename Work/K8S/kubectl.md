@@ -40,7 +40,7 @@ Property "users.xxxx" unset.
 aws eks update-kubeconfig \
 --region ap-southeast-1 \
 --name clusterName \
---profile int-xmn \
+--profile myprofile \
 --role-arn arn:aws:iam::123456789012:role/eks-admin-role-name
 ```
 ```yaml

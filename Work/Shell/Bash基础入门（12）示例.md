@@ -643,5 +643,3 @@ function generate_random_name {
 
 以上完全基于[AWS官方文档](https://docs.aws.amazon.com/)，并结合自身理解创作
 
-[全文有任何错误或疏漏，烦请不吝指正](https://github.com/HKCM/HKCM.github.io/issues)
-

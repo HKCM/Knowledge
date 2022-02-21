@@ -286,7 +286,6 @@ $ aws s3api list-objects-v2 --bucket arn:aws:s3:us-east-1:123456789012:accesspoi
 ```
 以上完全基于[AWS官方文档](https://docs.aws.amazon.com/)，并结合自身理解创作
 
-[全文有任何错误或疏漏，烦请不吝指正](https://github.com/HKCM/HKCM.github.io/issues)
 
 本文采用知识共享 署名-相同方式共享 3.0协议
 
