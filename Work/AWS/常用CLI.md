@@ -1,4 +1,5 @@
 ## 配置文件
+
 ```shell
 # 查看配置文件
 aws configure list
@@ -6,8 +7,11 @@ aws configure list
 
 ## EC2
 
+### Instance Type
+
+
 | Type       | vCPU  | Memory | 原价                  | Spot                       | 平台           |
-| ---------- | ----- | ------ | --------------------- | -------------------------- | -------------- |
+| ------------ | ------- | -------- | ----------------------- | ---------------------------- | ---------------- |
 | t3.micro   | 2vCPU | 1GiB   | $0.0114/h, $0.273/Day | $0.0034/h, $0.081/Day(3折) | 64 位平台      |
 | t3.small   | 2vCPU | 2GiB   | $0.0228/h, $0.547/Day | $0.0070/h, $0.168/Day(3折) | 64 位平台      |
 | t3.medium  | 2vCPU | 4GiB   | $0.0456/h, $1.094/Day | $0.0137/h, $0.328/Day(3折) | 64 位平台      |
@@ -23,8 +27,21 @@ Instance 类型说明: https://www.amazonaws.cn/ec2/instance-types/
 Instance 价格说明: https://aws.amazon.com/cn/ec2/pricing/on-demand/
 Instance Spot价格: https://aws.amazon.com/cn/ec2/spot/pricing/
 
+### Image
+
+
+| ImageID               | Type                    | Platform | Version     | ConnectName |
+| ----------------------- | ------------------------- | :--------- | :------------ | ------------- |
+| ami-0bf84c42e04519c85 | Amazon Linux 2 AMI      | X86      | Kernel 5.10 | ec2-user    |
+| ami-07e30a3659a490be7 | Amazon Linux 2 AMI      | Arm      | Kernel 5.10 | ec2-user    |
+| ami-08ca3fed11864d6bb | Ubuntu Server 20.04 LTS | X86      |             | ubuntu      |
+| ami-07d8796a2b0f8d29c | Ubuntu Server 18.04 LTS | X86      |             | ubuntu      |
+| ami-0ff760d16d9497662 | CentOS Linux 7          | X86      |             | centos      |
+
 
 ### 获取镜像
+
+[describe-images](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-images.html)
 
 ```shell
 # owners 099720109477 这个是AWS的权威账号
@@ -56,7 +73,12 @@ aws ec2 describe-images \
 
 ### 创建 Spot 实例
 
+[run-instances](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/run-instances.html)
+
+Instance Spot价格: https://aws.amazon.com/cn/ec2/spot/pricing/
+
 ```shell
+# run-instance 不要查IP因为刚启动还没分配IP
 aws ec2 run-instances \
 --profile myprofile \
 --region eu-west-1 \
@@ -64,16 +86,46 @@ aws ec2 run-instances \
 --instance-type t4g.small \
 --count 1 \
 --subnet-id subnet-exampled0c3652d62 \
---key-name integration_sftp \
+--associate-public-ip-address \
+--key-name mykey \
 --security-group-ids sg-example4e1f8ccdda \
 --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":20,"DeleteOnTermination":true,"VolumeType":"gp2"}}]' \
 --instance-market-options 'MarketType=spot,SpotOptions={MaxPrice=0.014,SpotInstanceType=one-time}' \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=local-test},{Key=Team,Value=myprofile},{Key=Environment,Value=myprofile},{Key=owner,Value=test-user}]'
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=local-test},{Key=Team,Value=myprofile},{Key=Environment,Value=myprofile},{Key=owner,Value=test-user}]' \
+--query "Instances[*].{InstanceId:InstanceId,Key:KeyName}" 
 
 # 用完不要忘记关机
 ```
 
+### 等待instance状态ok
+
+```shell
+aws ec2 wait instance-status-ok \
+    --instance-ids i-1234567890abcdef0
+```
+
+### 获取Instance IP
+
+```shell
+aws ec2 describe-instances \
+--profile int-xmn \
+--region eu-west-1 \
+--instance-ids i-0d21f0f642625e651 \
+--query "Reservations[*].Instances[*].{InstanceId:InstanceId,PublicIP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value,Type:InstanceType,Status:State.Name}" \
+--output table
+```
+
+### SSH
+
+```shell
+ssh -i "mykey.pem" centos@ipaddress.eu-west-1.compute.amazonaws.com
+ssh -i "mykey.pem" ec2-user@ipaddress.eu-west-1.compute.amazonaws.com
+ssh -i "mykey.pem" ubuntu@ipaddress.eu-west-1.compute.amazonaws.com
+```
+
 ### 获取instance ID
+
+[describe-instances](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-instances.html)
 
 ```shell
 aws ec2 describe-instances \
@@ -86,6 +138,7 @@ aws ec2 describe-instances \
 
 ### 停止EC2
 
+[stop-instances](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/stop-instances.html)
 Spot 实例 不能停止
 
 ```shell
@@ -96,6 +149,8 @@ aws ec2 stop-instances \
 ```
 
 ### 等待停止EC2
+
+[wait](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/wait/index.html)
 
 ```shell
 aws ec2 wait instance-stopped \
@@ -176,6 +231,25 @@ aws ec2 revoke-security-group-ingress \
 --cidr 100.100.100.100/32
 ```
 
+## S3
+
+### 只上传特定文件
+
+如果只想上传具有特定扩展名的文件，则需要先排除所有文件，然后重新包含具有特定扩展名的文件。此命令将仅上传以 结尾的文件.jpg：
+
+```shell
+aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
+--exclude "*" --include "*.jpg"
+
+aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
+--exclude "*" --include "*.jpg" --include "*.txt"
+```
+
+
+
+
+## CloudFormation
+
 ### 获取CloudFormation的Output
 
 ```shell
@@ -186,8 +260,6 @@ aws cloudformation describe-stacks \
 --query 'Stacks[0].Outputs[].{OutputKey:OutputKey,OutputValue:OutputValue}' \
 --output table
 ```
-
-## CloudFormation
 
 ### 清理changeset
 

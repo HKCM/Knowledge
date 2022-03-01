@@ -14,6 +14,7 @@ PythonCookbook: https://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p0
 
 屏幕测试网站:https://screen.bmcx.com/#welcome
 
+域名解析网站:https://www.nslookup.io/
 
 查硬盘写入: https://zhuanlan.zhihu.com/p/354385629
 

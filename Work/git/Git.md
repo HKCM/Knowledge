@@ -1,6 +1,5 @@
-# Git
 
-### 配置
+## 配置
 
 - `/etc/gitconfig` 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 `--system` 选项，读写的就是这个文件。
 - `~/.gitconfig` 文件：用户目录下的配置文件只适用于该用户。若使用 git config 时用 `--global` 选项，读写的就是这个文件。
@@ -25,12 +24,47 @@ git config --global credential.helper cache # 密码缓存时间
 $ git config --show-origin user.name  # 这会查找username生效的配置文件
 ```
 
+## 命令
+
+### 常用命令
+
+#### 重新提交
+有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。 此时，可以运行带有 —amend 选项的提交命令来重新提交：
+```shell
+$ git commit -m 'initial commit'
+$ git add forgotten_file
+$ git commit --amend
+```
+
+#### 删除分支
+
+```shell
+# 删除本地分支
+$ git branch -d testing
+$ git branch -D testing # 强制删除
+
+# 删除远端分支
+$ git push origin --delete serverfix
+```
+
+#### 跟踪远程分支
+```shell
+$ git checkout -b <branch> <remote>/<branch>
+$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'
+
+# 设置不同名字的本地分支和远程分支
+$ git checkout -b sf origin/serverfix
+```
+
+
 ### 测试连接
 ```shell
 $ ssh -vT git@github.com
 ```
 
-### 获取帮助
+### help
 ```shell
 $ git help <verb>
 $ git help reset
@@ -38,7 +72,7 @@ $ git <verb> --help
 $ man git-<verb>
 ```
 
-### 创建仓库
+### init
 ```shell
 $ mkdir newrepo && cd newrepo
 $ git init
@@ -47,7 +81,7 @@ $ git init
 $ git init newrepo
 ```
 
-### 仓库克隆
+### clone
 
 ```shell
 $ git clone [url]
@@ -56,7 +90,7 @@ $ git clone [url]
 $ git clone git://github.com/schacon/grit.git mygit
 ```
 
-### git ignore
+### ignore
 
 在本地库中添加`.gitignore` 文件并`add`
 ```shell
@@ -79,19 +113,19 @@ GitHub 有一个十分详细的针对数十种项目及语言的 `.gitignore` �
 一个仓库可能只根目录下有一个 .gitignore 文件，它递归地应用到整个仓库中。 然而，子目录下也可以有额外的 `.gitignore` 文件。子目录中的 `.gitignore` 文件中的规则只作用于它所在的目录中。
 
 
-### 查看当前git状态
+### status
 ```shell
 $ git status
 $ git status -s
 ```
 
-### 添加到暂存区
+### add
 ```shell
 $ git add fileA fileB
 $ git add .
 ```
 
-### 查看改动
+### diff
 - git diff: 显示尚未暂存的改动
 - git diff —cached: 显示已暂存文件与最后一次提交的文件差异
 - git diff HEAD: 查看已缓存的与未缓存的所有改动
@@ -108,7 +142,7 @@ $ git diff --staged
 
 git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。 所以有时候一下子暂存了所有更新过的文件，运行 git diff 后却什么也没有，就是这个原因。
 
-### 提交更改
+### commit
 ```shell
 $ git commit 
 $ git commit -m "message"
@@ -118,7 +152,7 @@ $ git commit -a
 $ git commit -am
 ```
 
-### 查看提交历史
+### log
 https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2
 
 ```shell
@@ -144,7 +178,7 @@ $ git log --since=2.weeks
 # 假设想找出添加或删除了对某一个特定函数的引用的提交
 $ git log -S function_name
 ```
-### 历史版本
+### reset
 - git reset —soft: 仅移动本地库HEAD指针，暂存区不变，工作区不变
 - git reset —mixed: 移动本地库HEAD指针，重置暂存区，工作区不变
 - git reset —hard: 移动本地库HEAD指针，重置暂存区，重置工作区
@@ -166,7 +200,7 @@ $ git reset --hard HEAD
 已经commit过的文件找回，用`git reset --hard`切到文件曾经存在的版本进行找回
 
 
-### 移除文件
+### rm
 
 另外一种情况是，我们想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。 换句话说，想让文件保留在磁盘，但是并不想让 Git 继续跟踪。 当忘记添加 .gitignore 文件，不小心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。 为达到这一目的，使用 —cached 选项：
 ```shell
@@ -181,7 +215,7 @@ $ git rm log/\*.log
 $ git rm \*~
 ```
 
-### 重命名
+### mv
 ```shell
 $ git mv README.md README
 
@@ -195,13 +229,7 @@ $ git add README
 
 ### 撤消操作
 
-#### 重新提交
-有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。 此时，可以运行带有 —amend 选项的提交命令来重新提交：
-```shell
-$ git commit -m 'initial commit'
-$ git add forgotten_file
-$ git commit --amend
-```
+
 最终你只会有一个提交——第二次提交将代替第一次提交的结果。
 
 #### 取消暂存的文件
@@ -280,7 +308,7 @@ git checkout -b release-21.4.20 origin/release-21.4.20
 git push origin --delete <branchName>
 ```
 
-### git标签
+### tag
 ```shell
 $ git tag # 列出标签
 $ git tag -l "v1.8.5*" # 列出带有v1.8.5标签
@@ -448,7 +476,7 @@ $ git checkout -b sf origin/serverfix
 ```
 
 
-### 小技巧
+## 小技巧
 ### 从每一个提交中移除一个文件
 ```shell
 $ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
