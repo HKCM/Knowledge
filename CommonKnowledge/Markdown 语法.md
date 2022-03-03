@@ -177,11 +177,15 @@ Then, anywhere in the document, you define your link label on a line by itself l
 
 ### Picture
 
-图片在
+图片设置
 
+```
 ![Alt text](/path/to/img.jpg)
 
 ![Alt text](/path/to/img.jpg "Optional title")
+```
+
+
 
 
 
@@ -298,5 +302,30 @@ gantt
         学习图形学: crit, 4d
         跳伞: crit,2d
         打枪: 6d
+```
+
+## 问题
+
+
+
+### URL中带有特殊符号
+
+URL中带有特殊符号,例如 `( `  、`)`、`‘` 、 `$`等,将他们用16进制ASCII码表示即可
+
+| ASCII | 符号 | ASCII | 符号 |
+| ----- | ---- | ----- | ---- |
+| 0x28  | (    | 0x3A  | :    |
+| 0x29  | )    | 0x3D  | =    |
+| 0x27  | '    | 0x2F  | /    |
+| 0x2F  | /    | 0x3F  | ?    |
+
+例如:  `www.example.com/a((x=4))sasd`中存在连续两个`)`会导致无法使用链接
+
+将其变为 `www.example.com/a%28%28x=4%29%29sasd`以便正常使用
+
+```
+www.example.com/a((x=4))sasd
+
+www.example.com/a%28%28x=4%29%29sasd
 ```
 
