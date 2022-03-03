@@ -1,9 +1,7 @@
-
-
 描述: 用VSCode写markdown时,原生字体在中英文字体下不等宽,导致写table时强迫症很难受
 
-
 解决方案:
+
 1. 下载字体
 
 https://github.com/be5invis/Sarasa-Gothic/releases
@@ -34,4 +32,3 @@ vim ~/git/.vscode/settings.json
 3. 重启或重载VSCode
 
 `Command + shift + P` 查找 `Reload Window`
-
