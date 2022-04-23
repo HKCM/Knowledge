@@ -194,7 +194,7 @@ $ eksctl create cluster \
 2021-09-26 09:52:14 [ℹ]  waiting for CloudFormation stack "eksctl-my-cluster-nodegroup-ng-2195232e"
 2021-09-26 09:52:34 [ℹ]  waiting for CloudFormation stack "eksctl-my-cluster-nodegroup-ng-2195232e"
 2021-09-26 09:52:37 [ℹ]  waiting for the control plane availability...
-2021-09-26 09:52:37 [✔]  saved kubeconfig as "/Users/karl.huang/.kube/config"
+2021-09-26 09:52:37 [✔]  saved kubeconfig as "/Users/USER/.kube/config"
 2021-09-26 09:52:37 [ℹ]  no tasks
 2021-09-26 09:52:37 [✔]  all EKS cluster resources for "my-cluster" have been created
 2021-09-26 09:52:38 [ℹ]  nodegroup "ng-2195232e" has 2 node(s)
@@ -204,7 +204,7 @@ $ eksctl create cluster \
 2021-09-26 09:52:38 [ℹ]  nodegroup "ng-2195232e" has 2 node(s)
 2021-09-26 09:52:38 [ℹ]  node "ip-192-168-31-108.us-east-2.compute.internal" is ready
 2021-09-26 09:52:38 [ℹ]  node "ip-192-168-83-220.us-east-2.compute.internal" is ready
-2021-09-26 09:54:49 [ℹ]  kubectl command should work with "/Users/karl.huang/.kube/config", try 'kubectl get nodes'
+2021-09-26 09:54:49 [ℹ]  kubectl command should work with "/Users/USER/.kube/config", try 'kubectl get nodes'
 2021-09-26 09:54:49 [✔]  EKS cluster "my-cluster" in "us-east-2" region is ready
 ```
 

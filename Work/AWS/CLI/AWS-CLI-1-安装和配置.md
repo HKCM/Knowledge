@@ -212,6 +212,10 @@ example
 3. `import`
 
   这是最方便的方式，当需要配置本机CLI时，大概率你手里已经有了credentials.csv文件
+  必须包含:
+  - User Name
+  - Access key ID
+  - Secret access key
 
   ```
   $ aws configure import –-csv file://./credentials.csv

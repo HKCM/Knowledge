@@ -20,21 +20,21 @@ no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please l
 ```
 aws ec2 modify-security-group-rules \
 > --group-id sg-0c77d0b4e1f8ccdda \
-> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule={IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=171.94.254.167/32,Description=karl-home}
+> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule={IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=111.111.111.111/32,Description=user-home}
 
 Parameter validation failed:
 Invalid type for parameter SecurityGroupRules[0].SecurityGroupRule, value: IpProtocol=tcp, type: <class 'str'>, valid types: <class 'dict'>
 Invalid type for parameter SecurityGroupRules[1].SecurityGroupRule, value: FromPort=22, type: <class 'str'>, valid types: <class 'dict'>
 Invalid type for parameter SecurityGroupRules[2].SecurityGroupRule, value: ToPort=22, type: <class 'str'>, valid types: <class 'dict'>
-Invalid type for parameter SecurityGroupRules[3].SecurityGroupRule, value: CidrIpv4=171.94.254.167/32, type: <class 'str'>, valid types: <class 'dict'>
-Invalid type for parameter SecurityGroupRules[4].SecurityGroupRule, value: Description=karl-home, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[3].SecurityGroupRule, value: CidrIpv4=111.111.111.111/32, type: <class 'str'>, valid types: <class 'dict'>
+Invalid type for parameter SecurityGroupRules[4].SecurityGroupRule, value: Description=user-home, type: <class 'str'>, valid types: <class 'dict'>
 ```
 
 解决方案: 对`SecurityGroupRule`加引号
 ```shell
 aws ec2 modify-security-group-rules \
 > --group-id sg-0c77d0b4e1f8ccdda \
-> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule="{IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=171.94.254.167/32}"
+> --security-group-rules SecurityGroupRuleId=sgr-077eed5ab7ba61131,SecurityGroupRule="{IpProtocol=tcp,FromPort=22,ToPort=22,CidrIpv4=111.111.111.111/32}"
 {
     "Return": true
 }

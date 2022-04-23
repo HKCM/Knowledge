@@ -320,7 +320,7 @@ aws s3api put-object --bucket ${mybucket} --body ./local_file --key hello.html -
     "VersionId": "D.HahJrVUGdK4D.RZ0Jn5lDbNRKeABCD"
 }
 
-aws s3api put-object --body ./h1.html --key static/allowed/h.html --bucket karl-test-us --content-type text/plain --acl public-read
+aws s3api put-object --body ./h1.html --key static/allowed/h.html --bucket user-test-us --content-type text/plain --acl public-read
 
 # 使用桶所有者条件以确保 DOC-EXAMPLE-BUCKET1 归 AWS 账户 111122223333.
 aws s3api put-object \
@@ -418,12 +418,12 @@ aws s3api abort-multipart-upload --bucket DOC-EXAMPLE-BUCKET --key large_test_fi
 #### 列出对象
 ```shell
 # 只列出目录
-aws s3 --profile myprofile --region us-east-1 ls s3://karl-test-us/North\ America/USA/
+aws s3 --profile myprofile --region us-east-1 ls s3://111.111.111.111-test-us/North\ America/USA/
                            PRE A/
                            PRE B/
                            PRE C/
 
-aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/' --delimiter /
+aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket user-test-us --prefix 'North America/USA/' --delimiter /
 {
     "CommonPrefixes": [
         {
@@ -439,12 +439,12 @@ aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket karl-t
 }
 
 # 列出对象
-aws s3 --profile myprofile --region us-east-1 ls s3://karl-test-us/North\ America/USA/ --recursive
+aws s3 --profile myprofile --region us-east-1 ls s3://user-test-us/North\ America/USA/ --recursive
 2020-12-20 19:50:24          0 North America/USA/A/A/1.txt
 2020-12-20 19:50:24          0 North America/USA/B/A/1.txt
 2020-12-20 19:50:24          0 North America/USA/C/A/1.txt
 
-aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket karl-test-us --prefix 'North America/USA/'
+aws s3api --profile myprofile --region us-east-1 list-objects-v2 --bucket user-test-us --prefix 'North America/USA/'
 {
     "Contents": [
         {
@@ -509,9 +509,9 @@ aws s3 rm s3://mybucket/test2.txt
 
 aws s3 rm s3://mybucket --recursive
 
-aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *.jpg
-aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude prefix/*
-aws s3 --profile myprofile --region us-east-1 rm s3://karl-test-us/North\ America --recursive --exclude *tag*
+aws s3 --profile myprofile --region us-east-1 rm s3://user-test-us/North\ America --recursive --exclude *.jpg
+aws s3 --profile myprofile --region us-east-1 rm s3://user-test-us/North\ America --recursive --exclude prefix/*
+aws s3 --profile myprofile --region us-east-1 rm s3://user-test-us/North\ America --recursive --exclude *tag*
 ```
 
 #### 生成预签名对象

@@ -52,6 +52,38 @@ $ PATH=$PATH:.
 
 ```
 
+### 通过参数配置变量
+```shell
+function usage() {
+  echo "Usage:
+
+  ./scripts/admin/deploy_infra.sh \\
+    -c <CMR Number> \\
+    -s <service> \\
+    -b <brand> \\
+    -e <environment/stage> \\
+    -p <aws_profile> \\
+
+Example:
+
+  ./scripts/admin/deploy_infra.sh -s slack -b rc -e dev -p int-developer
+"
+  exit 0
+}
+
+while getopts "c:s:b:e:p:h" opt; do
+  case "$opt" in
+  c) CMR="$OPTARG" ;;
+  s) Service="$OPTARG" ;;
+  b) Brand="$OPTARG" ;;
+  e) Stage="$OPTARG" ;;
+  p) AwsProfile="$OPTARG" ;;
+  h) usage ;;
+  [?]) usage ;;
+  esac
+done
+```
+
 ### 变量默认值
 ```
 $echo ${JENKINS_VERSION:-2.7.4}

@@ -257,8 +257,6 @@ https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard
 
 下图显示源 AMI、在不同的区域中复制的两个 AMIs 以及从它们中启动的 EC2 实例之间的关系。从 AMI 中启动实例时，该实例位于 AMI 所在的区域中。如果您更改源 AMI，并希望在目标区域中的 AMIs 上反映这些更改，您必须将源 AMI 重新复制到目标区域中。
 
-![ 				在不同区域中复制的 AMI 			](/Users/karl.huang/AWS/ami_copy.png)
-
 #### 跨账号复制AMI
 
 跨账号复制就是与特定 AWS 账号共享,详情参考:
@@ -478,10 +476,6 @@ Amazon EC2 并不总能在两分钟的 Spot 实例中断通知之前发送再平
 - 容量预留不能确保休眠的实例在尝试启动后可以恢复。
 
 ### Instance 生命周期
-
-
-
-![         实例生命周期       ](/Users/karl.huang/AWS/instance_lifecycle.png)
 
 下表提供了每个实例状态的简短说明，并指示它是否已计费。
 

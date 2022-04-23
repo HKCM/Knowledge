@@ -7,6 +7,13 @@
 - current-context
 
 ```shell
+# 设置自动补全
+# 在bash中
+source <(kubectl completion bash)
+
+# 在zsh中
+source <(kubectl completion zsh)
+
 # 查看帮助
 kubectl config -h
 

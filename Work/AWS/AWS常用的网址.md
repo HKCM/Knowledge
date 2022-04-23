@@ -1,5 +1,6 @@
 ## AWS常用的网址
 
+AWS 成本计算器: https://calculator.aws/#/addService
 
 SLA(Service Level AAgreement): https://aws.amazon.com/cn/legal/service-level-agreements/
 
@@ -26,3 +27,7 @@ AWS 服务授权参考: https://docs.aws.amazon.com/service-authorization/latest
 AWS Query 参数参考: https://jmespath.org/tutorial.html 
 
 AWS 服务限制: https://console.aws.amazon.com/servicequotas/home/services
+
+AWS 服务健康: https://health.aws.amazon.com/health/status
+
+AWS CloudFormation 参考文档: https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
