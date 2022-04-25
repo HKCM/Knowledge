@@ -40,14 +40,14 @@ num1-ge num2  大于或等于 [ 3 -ge $mynum ]
 
 ```shell
 if [ ! -d "$dir"]; then
-　　mkdir "$dir"
+  mkdir "$dir"
 fi
 ```
 
 2：判断普通文件`$file`是否存，若不存在，则新建一个
 ```shell
 if [ ! -f "$file" ]; then
-　　touch "$file"
+  touch "$file"
 fi
 ```
 

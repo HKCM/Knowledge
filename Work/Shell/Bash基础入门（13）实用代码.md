@@ -10,7 +10,8 @@
 # Daily_Archive - Archive designated files & directories ######################################################## #
 # Gather Current Date
 #
-DATE=$(date +%y%m%d)
+#DATE=$(date '+%Y-%m-%d %H:%M:%S')
+DATE=$(date '+%Y-%m-%d')
 #
 # Set Archive File Name
 #

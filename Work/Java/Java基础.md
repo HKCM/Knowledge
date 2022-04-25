@@ -1,11 +1,17 @@
 # Java基础
-#Work/java
-### JDK
+
+## 基础
+
+### JDK下载
+
 Oracle 账号
 1602404824@qq.com
 密码：wf1996ROOT#
 
-JDK 下载地址： https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html
+JDK 下载地址： 
+- https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk#download-openjdk
+- https://www.oracle.com/java/technologies/downloads/
+- https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html
 
 MAC 下JDK位置为 `/Library/Java/JavaVirtualMachines`
 
@@ -27,6 +33,7 @@ export JAVA_HOME=$JAVA_11_HOME
 ```
 
 ### IDEA
+
 下载地址 https://www.jetbrains.com/zh-cn/idea/download/
 
 **新Project流程**
@@ -55,7 +62,7 @@ Command + ctrl + G ：选中所有相同的内容
 Command + option + t 包含代码块
 
 
-![img](Java基础.assets/java_basic.png)
+![img](./image/java_basic.png)
 
 ### 注释
 
@@ -72,6 +79,7 @@ Command + option + t 包含代码块
 ```
 
 ### 数据类型
+
 #### 整数
 bit（位） byte（字节）
 	- byte： 1字节 -128～127
@@ -84,7 +92,7 @@ bit（位） byte（字节）
 #### 其他
 	- char 2字节
 	- boolean
-![](Java基础.assets/55B7CC92-BABD-42E5-AC7E-8CA6F11E4DDE-8431993.png)
+![](image/55B7CC92-BABD-42E5-AC7E-8CA6F11E4DDE.png)
 
 ### 运算符
 
@@ -282,3 +290,69 @@ for (String i : arr) { //遍历arr
     System.out.println(i);
 }
 ```
+
+
+
+## 面向对象
+
+### 封装
+
+利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外接口使之与外部发生联系。用户无需知道对象内部的细节，但可以通过对象对外提供的接口来访问该对象。
+
+可以在不影响调用的情况下修改内部代码
+
+可以对数据进行校验（严格控制数据输入）
+
+
+
+**Static**
+
+Static方法可以访问Static成员变量
+
+成员方法可以访问Static成员变量
+
+Static中不能包含`this`关键字
+
+static {} 与类一起加载，自动触发，加载且仅加载一次
+
+单例设计模式，构造器私有（private）可以保证这个类只有一个实例 
+
+- 饿汉单例（提前准备好实例）
+
+    ```java
+    public class SingleInstance {
+      //static 变量与类一同加载，且仅有一个
+      public static SingleInstance instance = new SingleInstance();
+      private SingleInstance(){
+        System.out.println('创建了一个对象')
+      }
+    }
+    //s1 和 s2相等，SingleInstance.instance 有且仅有一个
+    SingleInstance s1 = SingleInstance.instance;
+    SingleInstance s2 = SingleInstance.instance;
+    ```
+
+- 懒汉单例（需要实例时调用`getInstance`获取对象）
+
+    ```java
+    public class SingleInstance {
+      	//使用private 更安全，防止空对象
+        private static SingleInstance instance;
+        private SingleInstance(){}
+        public static SingleInstance getInstance() {
+            if (instance == null) {
+                instance = new SingleInstance();
+            }
+            return instance;
+        }
+    }
+    ```
+
+    
+
+### 继承
+
+```jav	
+public class Student extends People()
+```
+

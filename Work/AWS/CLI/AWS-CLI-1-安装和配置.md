@@ -4,7 +4,7 @@
 
 [toc]
 
-到文章发布AWS CLI有两个版本，V1和V2. V2中添加很多修改，具体看这里:
+AWS CLI有两个版本，V1和V2. V2中添加很多修改，具体看这里:
  https://docs.amazonaws.cn/cli/latest/userguide/cliv2-migration.html
 
 **默认情况下，AWS CLI 版本 2 会对所有输出使用分页程序,在Linux 和 macOS 上是 `less` 程序**
@@ -47,6 +47,12 @@ aws-cli/2.0.47 Python/3.7.4 Linux/4.14.133-113.105.amzn2.x86_64 botocore/2.0.0
 ```
 
 版本列表: https://github.com/aws/aws-cli/blob/v2/CHANGELOG.rst
+
+
+
+### 命令补全
+
+https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-completion.html#cli-command-completion-linux
 
 ### 更新
 

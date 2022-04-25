@@ -1,5 +1,41 @@
 
+<<<<<<< Updated upstream
 ## 配置
+=======
+## Git配置
+
+### Git补全工具
+
+1.   先安装bash-completion
+
+```shell
+brew install bash-completion
+```
+
+2.   将网页内容保存到`~/.git-completion.bash` 注意 `git` 版本
+
+https://raw.githubusercontent.com/git/git/v2.24.2/contrib/completion/git-completion.bash
+
+git的源码库中也有https://github.com/git/git/tree/master/contrib/completion
+
+3.   将文件保存到 `/usr/local/etc/bash_completion.d` 中,重启生效
+
+
+
+或者下面代码添加到`~/.bash_profile`（如果没有这个文件，新建一个）。
+
+```shell
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+```
+
+最后`source ~/.bash_profile`
+
+
+
+### 配置
+>>>>>>> Stashed changes
 
 - `/etc/gitconfig` 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 `--system` 选项，读写的就是这个文件。
 - `~/.gitconfig` 文件：用户目录下的配置文件只适用于该用户。若使用 git config 时用 `--global` 选项，读写的就是这个文件。
@@ -60,6 +96,7 @@ $ git checkout -b sf origin/serverfix
 
 
 ### 测试连接
+
 ```shell
 $ ssh -vT git@github.com
 ```
@@ -72,7 +109,12 @@ $ git <verb> --help
 $ man git-<verb>
 ```
 
+<<<<<<< Updated upstream
 ### init
+=======
+## Git操作
+### 创建仓库
+>>>>>>> Stashed changes
 ```shell
 $ mkdir newrepo && cd newrepo
 $ git init
@@ -527,13 +569,27 @@ ef49a7a zlib: zlib can only process 4GB at a time
 
 ### 工作流
 
-![F0710C53-BD68-4950-ACC8-FACD90A14FF5](./Git.assets/F0710C53-BD68-4950-ACC8-FACD90A14FF5.png)
+![F0710C53-BD68-4950-ACC8-FACD90A14FF5](./Image/F0710C53-BD68-4950-ACC8-FACD90A14FF5.png)
 
-### 扩展示例
+## 扩展示例
 
 https://git-scm.com/book/zh/v2/%E5%88%86%E5%B8%83%E5%BC%8F-Git-%E5%90%91%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E8%B4%A1%E7%8C%AE
 https://git-scm.com/book/zh/v2/GitHub-%E5%AF%B9%E9%A1%B9%E7%9B%AE%E5%81%9A%E5%87%BA%E8%B4%A1%E7%8C%AE
 
 
-### 参考
+## 参考
 https://git-scm.com/book/zh/v2
+
+## 常见问题
+
+### 解决git status不能显示中文
+
+```bash
+git config --global core.quotepath false
+```
+
+在`~/.zshrc` 或 `~/.bashrc` 中添加
+```bash
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+```

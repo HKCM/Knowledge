@@ -1,15 +1,4 @@
----
-title: DNS
-categories:
-  - Linux
-  - Services
-tags:
-  - Services
-date: 2021-02-26 14:48:10
----
-
 ## 描述: DNS安装和使用
-<!--more-->
 
 ### DNS简介
 
@@ -454,7 +443,7 @@ server is up and running
 
 查看远端DNS状态
 rndc status
-rndc -s 192.168.88.129 status #指定server
+rndc -s 192.168.88.129 status # 指定server
 
 重载主配置文件和区域解析库文件，可以不用重启named服务情况下更新主配置文件和区域解析库文件。
 rndc reload

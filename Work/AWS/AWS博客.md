@@ -15,3 +15,5 @@
 9. [如何保护 EC2 上元数据以对抗 SSRF 攻击](https://aws.amazon.com/cn/blogs/china/talking-about-the-metadata-protection-on-the-instance-from-the-data-leakage-of-capital-one/)
 10. [在 Amazon EC2 Spot 实例上运行 Web 应用程序](https://aws.amazon.com/cn/blogs/compute/running-web-applications-on-amazon-ec2-spot-instances/)
 11. [密钥轮换示例](https://aws.amazon.com/ru/blogs/security/how-to-rotate-access-keys-for-iam-users/)
+
+### [AHA (AWS Health Aware) – 为组织和个人 AWS 账户自定义 AWS 健康警报](https://aws.amazon.com/cn/blogs/mt/aws-health-aware-customize-aws-health-alerts-for-organizational-and-personal-aws-accounts/)

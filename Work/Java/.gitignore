@@ -1,5 +1,5 @@
 # Java gitignore
-#Work/java
+
 ```java
 # Compiled class file
 *.class

@@ -879,12 +879,22 @@ curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudform
 
 ```
 apiVersion: v1
-data:  
-   mapRoles: |    
-      - groups:      
-         - system:bootstrappers      
-         - system:nodes      
-         rolearn: arn:aws:iam::734871910852:role/eksctl-my-cluster-nodegroup-ng-e4-NodeInstanceRole-1GY20BLPCVHN      username: system:node:{{EC2PrivateDNSName}}  mapUsers: |    - userarn: arn:aws:iam::734871910852:user/hkc_admin2      username: hkc_admin2      groups:        - system:masters
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: <ARN of instance role (not instance profile)>
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+  mapUsers: |    
+    - userarn: arn:aws:iam::734871910852:user/hkc_admin2      
+      username: hkc_admin2      
+      groups:        
+        - system:masters
 ```
 
 应用配置。此命令可能需要几分钟才能完成。

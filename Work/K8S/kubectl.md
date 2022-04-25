@@ -1,4 +1,33 @@
-## kubeconfig相关
+
+# kubectl
+
+
+## kubectl 安装
+
+```shell
+brew search kubectl
+brew install kubectl
+```
+
+### kubectl 自动补全工具
+
+1.   先安装bash-completion,已有可以无需安装
+
+     ```shell
+     brew install bash-completion	
+     ```
+
+2.   添加completion文件
+
+     ```shell
+     cd /usr/local/etc/bash_completion.d
+     kubectl completion bash> kubectl
+     ```
+
+## 配置相关
+
+#### 获取集群
+
 
 配置文件地址`~/.kube/config`, 配置文件主要有四个字段
 - clusters
@@ -26,6 +55,7 @@ aws94-c01-kbm10
 # 获取所有contexts
 kubectl config get-contexts
 
+
 # 获取当前使用的contexts
 kubectl config current-context
 
@@ -39,53 +69,6 @@ kubectl config delete-cluster aws94-c01-kbm20
 kubectl config unset users.xxx
 Property "users.xxxx" unset.
 ```
-
-### AWS EKS 示例config文件
-
-通过特定的role更新kube config文件
-```shell
-aws eks update-kubeconfig \
---region ap-southeast-1 \
---name clusterName \
---profile myprofile \
---role-arn arn:aws:iam::123456789012:role/eks-admin-role-name
-```
-```yaml
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: EXAMPLE--URVJUSUZ...JSUN5RENDQWJDZ0F3SUJL3ZMUmJ
-    server: https://XXXXC93234XXX5B30B624FXXXXX.gr7.ap-southeast-1.eks.amazonaws.com
-  name: arn:aws:eks:ap-southeast-1:123456789012:cluster/example
-contexts:
-- context:
-    cluster: arn:aws:eks:ap-southeast-1:123456789012:cluster/example
-    user: arn:aws:eks:ap-southeast-1:123456789012:cluster/example
-  name: xmnup
-current-context: xmnup
-kind: Config
-preferences: {}
-users:
-- name: arn:aws:eks:ap-southeast-1:123456789012:cluster/example
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1alpha1
-      args:
-      - --region
-      - ap-southeast-1
-      - eks
-      - get-token
-      - --cluster-name
-      - example
-      - --role
-      - arn:aws:iam::123456789012:role/eks-admin-example
-      command: aws
-      env:
-      - name: AWS_PROFILE
-        value: myprofile
-```
-
-该文件是从`arn:aws:iam::123456789012:role/eks-admin-example` Role中获取对EKS的控制权, 又是通过本地的`myprofile` 获取该Role的token
 
 ## 集群命令
 
@@ -190,8 +173,8 @@ spec:
         ports:
         - containerPort: 80
 ```
-```shell
 
+```shell
 $ kubectl get deployment nginx-deployment -o yaml # 查看当前deployment 的 strategy
 # 更新允许多一个节点不能少一个节点
 $ kubectl patch deployment nginx-deployment -p '{"spec":{"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}}}}' # 通过一行命令打补丁
@@ -249,3 +232,75 @@ yum install -y bind-utils
 
 dig +short A myapp.default.svc.cluster.local @10.96.0.10
 ```
+=======
+## 操作
+
+#### Pods操作
+
+```shell
+# 查看所有 Pods
+kubectl get pods -A
+
+# 查看指定NS里面 Pods
+kubectl get pods -n test-namespace
+
+# 查看指定NS里面 Pods 具有指定label 的Pod
+kubectl get pods -l version=v1 -n test-namespace
+
+# 查看pod事件
+kubectl describe pod aws94-abe-8f9cd4697-m85lx -n test-namespace
+
+# 获取 Pods 日志
+kubectl logs aws94-abe-8f9cd4697-m85lx -n test-namespace
+
+# 获取 PodName
+kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\\n"}}{{end}}' -n myns
+
+# 获取Pod环境变量
+kubectl exec kubernetes-bootcamp-fb5c67579-8s7rv -- env 
+
+# 在pod中运行命令
+kubectl exec -ti $POD_NAME -- bash
+```
+
+#### Deployment
+
+```bash
+kubectl get deployments
+
+# 获取Replicas
+kubectl get rs
+
+# 更新deployment image
+kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+
+# 查看更新状态
+kubectl rollout status deployments/kubernetes-bootcamp
+
+# 回滚更新
+kubectl rollout undo deployments/kubernetes-bootcamp
+
+# 缩放deployment中的pods
+kubectl scale deployments/kubernetes-bootcamp --replicas=4
+
+kubectl describe deployments/kubernetes-bootcamp
+```
+
+
+#### Service操作
+```bash
+# 获取所有服务
+kubectl get services -A
+
+# 获取指定NS里面的服务
+kubectl get services -n test-namespace
+
+# 从Deployment中暴露一个服务
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+
+# 获取服务暴露的
+kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}'
+
+kubectl describe services/kubernetes-bootcamp
+```
+
