@@ -329,3 +329,4 @@ www.example.com/a((x=4))sasd
 www.example.com/a%28%28x=4%29%29sasd
 ```
 
+使用 `%28` 代替 `(`, 使用 `%29` 代替 `)`
