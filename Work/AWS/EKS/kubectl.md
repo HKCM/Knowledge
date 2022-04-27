@@ -112,4 +112,14 @@ users:
 
 该文件是从`arn:aws:iam::123456789012:role/eks-admin-example` Role中获取对EKS的控制权, 又是通过本地的`myprofile` 获取该Role的token
 
+#### 更新配置
+
+```shell
+aws eks update-kubeconfig \
+--region ap-southeast-1 \
+--name aws94-c01-kbm10 \
+--profile int-xmn \
+--role-arn arn:aws:iam::524621635179:role/cops-eks-admin-aws94-c01-kbm10
+```
+
 

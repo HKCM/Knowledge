@@ -1,7 +1,3 @@
-
-<<<<<<< Updated upstream
-## 配置
-=======
 ## Git配置
 
 ### Git补全工具
@@ -35,7 +31,6 @@ fi
 
 
 ### 配置
->>>>>>> Stashed changes
 
 - `/etc/gitconfig` 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 `--system` 选项，读写的就是这个文件。
 - `~/.gitconfig` 文件：用户目录下的配置文件只适用于该用户。若使用 git config 时用 `--global` 选项，读写的就是这个文件。
@@ -109,12 +104,10 @@ $ git <verb> --help
 $ man git-<verb>
 ```
 
-<<<<<<< Updated upstream
-### init
-=======
+
 ## Git操作
 ### 创建仓库
->>>>>>> Stashed changes
+
 ```shell
 $ mkdir newrepo && cd newrepo
 $ git init
