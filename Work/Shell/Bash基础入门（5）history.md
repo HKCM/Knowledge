@@ -15,7 +15,7 @@ $ history -c  # 清除历史操作
   通过设置`HISTTIMEFORMAT`环境变量，可以让`history`显示操作时间
 ```
 # 将HISTTIMEFORMAT写入/etc/profile可以全局通用
-$ echo 'export HISTTIMEFORMAT="%F %T  `whoami`: "' >> /etc/profile && source /etc/profile
+$ echo 'export HISTTIMEFORMAT="%F %T  `whoami`: "' >> .bashrc && source .bashrc
 
 HISTTIMEFORMAT="%Y-%m-%d:%H-%M-%S `whoami`:  "    #记录每条历史命令的执行时间和执行者        
 

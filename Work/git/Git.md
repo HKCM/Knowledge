@@ -104,15 +104,8 @@ $ git <verb> --help
 $ man git-<verb>
 ```
 
-<<<<<<< HEAD
-
 ## Git操作
 ### 创建仓库
-
-=======
-## Git操作
-### 创建仓库
->>>>>>> dbc7543584babbacc87fabdeff9b7bf99900de63
 ```shell
 $ mkdir newrepo && cd newrepo
 $ git init

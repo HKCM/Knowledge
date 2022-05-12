@@ -1,5 +1,34 @@
 # Java基础
 
+
+
+- [Java基础](#java基础)
+  - [基础](#基础)
+    - [JDK下载](#jdk下载)
+    - [IDEA](#idea)
+    - [注释](#注释)
+    - [数据类型](#数据类型)
+      - [整数](#整数)
+      - [浮点数](#浮点数)
+      - [其他](#其他)
+      - [运算符](#运算符)
+      - [自加/自减](#自加自减)
+      - [三元运算符](#三元运算符)
+    - [数据输入](#数据输入)
+    - [分支结构](#分支结构)
+      - [Switch](#switch)
+      - [if-else](#if-else)
+    - [循环结构](#循环结构)
+      - [while](#while)
+      - [for](#for)
+      - [do-while](#do-while)
+    - [方法](#方法)
+    - [内存分配](#内存分配)
+  - [面向对象](#面向对象)
+    - [封装](#封装)
+      - [单例设计模式](#单例设计模式)
+    - [继承](#继承)
+
 ## 基础
 
 ### JDK下载
@@ -47,19 +76,15 @@ File > Settings > Appearance > Theme
 File > Settings > Editor > Font 
 
 **快捷键**
-Command + Option + L 格式化代码
-
-Control + Option + O 优化import
-
-Command + D 复制当前行或选定的块
-
-Command + Delete 删除当前行或选定的块的行
-
-Option + Enter 创建方法
-
-Command + ctrl + G ：选中所有相同的内容
-
-Command + option + t 包含代码块
+- Command + Option + L 格式化代码
+- Control + Option + O 优化import
+- Command + D 复制当前行或选定的块
+- Command + Delete 删除当前行或选定的块的行
+- Option + Enter 创建方法
+- Command + ctrl + G ：选中所有相同的内容
+- Command + option + t 包含代码块
+- Command + N: 生成代码
+- Shift + option + ⬆/⬇: 上下移动代码行 
 
 
 ![img](./image/java_basic.png)
@@ -94,7 +119,7 @@ bit（位） byte（字节）
 	- boolean
 ![](image/55B7CC92-BABD-42E5-AC7E-8CA6F11E4DDE.png)
 
-### 运算符
+#### 运算符
 
 #### 自加/自减
 ```java
@@ -113,7 +138,7 @@ public class N {
         int[] s = {1,2,3,4};
         print(s);
     }
-	  # 示例输出 [1,2,3,4], 判断是否是最后一位，如果不是最后一位则在输出后加一个逗号
+	// 示例输出 [1,2,3,4], 判断是否是最后一位，如果不是最后一位则在输出后加一个逗号
     public static void print(int[] s) {
         System.out.print('[');
         if (s != null && s.length > 0){       
@@ -194,7 +219,7 @@ public class N {
     public static void main(String[] args) {
         int a = 10; // a和b是实参
         int b = 15;
-		  int c = sum(a, b); // 值传递
+		int c = sum(a, b); // 值传递
         System.out.println(c); 
         int[] s = {1,1,1,1};
         change(s); // 引用传递
@@ -215,82 +240,9 @@ public class N {
 
 ### 内存分配
 
-将Class以及方法加载到方法区
-
-将方法和变量加载到栈内存中，方法运行完毕就会退出栈内存
-栈内存：方法，变量
-
-堆内存：new 对象
-
-### String
-以“” 方式给出的字符串对象，在字符串常量池中存储，且相同的内容只会保存一次。
-通过构造器new对象，每次new都会产生新对象，放在堆内存中
-`注意：字符串内容不适合用 '==' 因为其中存储的是地址`
-```java
-String s1 = "123";
-String s2 = "123";
-System.out.println(s1 == s2); // true
-
-char[] chs = {'a','b','c'};
-String s3 = new String(chs);
-String s4 = new String(chs);
-System.out.println(s3 == s4); //false
-```
-
-String 常用方法
-```java
-String a = "  abcdefghkjg  ";
-String b = "abc";
-a.length();  //获取字符串长度 15
-a.toCharArray(); // 返回字符数组
-a.charAt(2); //获取指定位置的字符 'a'
-a.substring(2,5); //截取字符串包前不包后 abc 
-a.split("c")[0]; // 通过指定字符切割字符串，返回字符串数组 '  ab'
-a.equals(b); //判断字符串是否相等 false
-a.equalsIgonreCase(b); //忽略大小写验证字符串是否相等（验证码）
-a.concat(b); //链接2个字符串 '  abcdefghkjg  abc'
-a.startsWith("abc",2); //判断指定位置是否以指定字符开头 true
-a.endsWith("g  ") //判断是否以指定字符结尾 true
-a.trim(); //去首尾空格 'abcdefghkjg'
-a.replace("abc","123"); //字符串替换 '  123defghkjg  '
-a.indexOf("g",9); // 返回指定字符串的所在位置 12
-a.toUpperCase(); // 返回大写字符
-a.toLowerCase(); // 返回小写字符
-```
-
-### 数组
-```java
-int[] sales = new int[]{10,20,30}; // 静态初始化
-int[] a = new int[5]; // 动态初始化
-int[] b = a; // 引用传递
-a.toString() == b.toString() // true [I@3f0ee7cb
-
-int[][] a = new int[5][5]; // 二维数组动态初始化
-System.out.println(sales.length); // 3
-System.out.println(a[1].length); // 5
-```
-
-### ArrayList
-集合只能存储引用类型，不支持基本类型
-```java
-ArrayList<String> arr = new ArrayList<String>();
-ArrayList<Integer> I = new ArrayList<>(); // 整数集合
-
-arr.add("Google");
-arr.add("Amazon");
-arr.add("Baidu");
-arr.add("Google");
-arr.get(1); //获取指定位置的元素 Amazon
-arr.set(2,"BMW"); // 修改下标为2的元素 返回修改前的元素
-arr.remove(1); // 删除下标为1的元素 返回删除的元素
-arr.remove("Google"); // 删除"Google"的元素，删除第一次出现的元素 返回true或者false
-arr.size(); // 获取arr的长度
-
-for (String i : arr) { //遍历arr
-    System.out.println(i);
-}
-```
-
+- 方法区: 将Class以及方法加载到方法区
+- 栈内存: 将方法和变量加载到栈内存中，方法运行完毕就会退出栈内存,栈内存：方法，变量
+- 堆内存：new 对象
 
 
 ## 面向对象
@@ -299,9 +251,9 @@ for (String i : arr) { //遍历arr
 
 利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外接口使之与外部发生联系。用户无需知道对象内部的细节，但可以通过对象对外提供的接口来访问该对象。
 
-可以在不影响调用的情况下修改内部代码
-
-可以对数据进行校验（严格控制数据输入）
+好处:
+- 可以在不影响调用的情况下修改内部代码
+- 可以对数据进行校验（严格控制数据输入）
 
 
 
@@ -313,23 +265,45 @@ Static方法可以访问Static成员变量
 
 Static中不能包含`this`关键字
 
-static {} 与类一起加载，自动触发，加载且仅加载一次
+静态代码块
+- static {} 与类一起加载，自动触发，加载且仅加载一次
+- 用于初始化静态资源
+实例代码块(构造代码块)
+- {} 每次创建实例时,在构造器之前被加载
+- 用于初始化实例资源
 
+```java
+public class Car {
+    // 类在第一次被加载的时候执行
+    static {
+        System.out.println("====静态代码块被执行====");
+    }
+    // 实例代码块，每次创建实例时先于构造器执行
+    {
+        System.out.println("====实例代码块被执行====")；
+    }
+}
+```
+
+#### 单例设计模式
 单例设计模式，构造器私有（private）可以保证这个类只有一个实例 
 
 - 饿汉单例（提前准备好实例）
 
     ```java
-    public class SingleInstance {
-      //static 变量与类一同加载，且仅有一个
-      public static SingleInstance instance = new SingleInstance();
-      private SingleInstance(){
-        System.out.println('创建了一个对象')
-      }
+    public class HungerSingleInstance {
+        //static 变量与类一同加载，且仅有一个
+        public static HungerSingleInstance instance = new HungerSingleInstance();
+        private HungerSingleInstance(){
+            System.out.println("创建了一个对象");
+        }
+
+        public static void main(String[] args) {
+            //s1 和 s2相等，SingleInstance.instance 有且仅有一个
+            HungerSingleInstance s1 = HungerSingleInstance.instance;
+            HungerSingleInstance s2 = HungerSingleInstance.instance;
+        }
     }
-    //s1 和 s2相等，SingleInstance.instance 有且仅有一个
-    SingleInstance s1 = SingleInstance.instance;
-    SingleInstance s2 = SingleInstance.instance;
     ```
 
 - 懒汉单例（需要实例时调用`getInstance`获取对象）
