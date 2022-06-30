@@ -236,6 +236,8 @@ config文件支持大量的字段,下面介绍一些常用的：
   分页功能，仅适用于 AWS CLI 版本 2，可以被 AWS_PAGER 环境变量覆盖
   使用 --no-cli-pager 命令行选项可禁止在单个命令中使用分页程序。
   将 cli_pager 设置或 AWS_PAGER 变量设置为空字符串。
+
+  export AWS_PAGER=""
   ```shell
   [default]
   cli_pager=less
@@ -343,6 +345,11 @@ AWS CLI 凭证和配置设置的优先顺序如下：
     Enabled: true
   $ aws ec2 run-instances --cli-input-yaml file://ec2runinst.yaml
   ```
+
+6. **--no-cli-pager**
+    命令输出禁用分页程序
+
+  https://docs.amazonaws.cn/cli/latest/userguide/cli-configure-options.html
 
 ### 设置AWS自动补全
 

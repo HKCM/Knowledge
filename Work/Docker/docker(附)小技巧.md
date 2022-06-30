@@ -1,15 +1,5 @@
----
-title: docker(附)小技巧
-categories:
-  - Linux
-  - docker
-tags:
-  - docker
-date: 2021-03-13 18:20:27
----
 
 ### 描述: 一些docker的小技巧
-<!--more-->
 
 #### 查找docker container的日志文件位置
 ```shell

@@ -1,3 +1,6 @@
+### cookbook
+https://python3-cookbook.readthedocs.io/zh_CN/latest/c06/p02_read-write_json_data.html
+
 ### 虚拟环境
 https://docs.python.org/zh-cn/3/library/venv.html
 
@@ -5,7 +8,7 @@ https://docs.python.org/zh-cn/3/library/venv.html
 ```shell
 # python3 -m venv /path/to/new/virtual/environment
 
-python3 -m venv virtual1
+python3 -m venv virtual1s
 ```
 
 激活环境

@@ -1,0 +1,2 @@
+aws --profile {{PROFILE}} iam get-policy --policy-arn arn:aws:iam::{{AWSACCOUNT}}:policy/{{{POLICYNAME}}
+aws --profile {{}PROFILE} iam get-policy-version --policy-arn arn:aws:iam::{{AWSACCOUNT}}:policy/{{{POLICYNAME}} --version-id {{version-id}}

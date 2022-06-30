@@ -2,6 +2,27 @@
 
 ## 常见问题
 
+### EC2设置密码
+1. 设置密码
+```shell
+sudo passwd ubuntu
+Changing password for user ubuntu.
+New password:
+Retype new password:
+``` 
+
+2. 更改配置
+```shell
+sudo vim /etc/ssh/sshd_config
+
+PasswordAuthentication yes
+```
+
+3. 重启服务
+```shell
+sudo systemctl restart sshd.service
+```
+
 ### Please login as the user "ec2-user" rather than the user "root".
 
 ```shell

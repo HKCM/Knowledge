@@ -16,5 +16,56 @@ Amazon Relational Database Service (Amazon RDS) 是一项Web服务，让用户�
 
 ### 定价
 
-https://aws.amazon.com/cn/rds/pricing/
+https://aws.amazon.com/cn/rds/aurora/pricing/
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/User_DBInstanceBilling.html
+
+### serverless 的优点
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.advantages
+
+### 全局数据库优势和限制
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.advantages
+
+### 自定义终端
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.Endpoints.html#Aurora.Endpoint.Tutorial
+
+### dataAPI
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/data-api.html
+
+
+### 查询编辑器
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/query-editor.html
+
+### Aurora 全局数据库的辅助 AWS 区域的写入转发
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-write-forwarding.html
+
+### 修改数据库
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/Aurora.Modifying.html
+
+### 默认连接设置
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Performance.html#Aurora.Managing.MaxConnections
+
+### ARN命名
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.ARN.html
+
+### 克隆 Aurora 数据库集群中的数据库
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html
+
+### 了解 Aurora 备份存储使用量
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/aurora-storage-backup.html
+
+### 监控 Amazon Aurora 概览(指标)
+
+https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/AuroraUserGuide/MonitoringOverview.html#monitoring-cloudwatch
 

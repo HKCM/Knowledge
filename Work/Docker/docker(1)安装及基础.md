@@ -68,11 +68,18 @@ $ docker info
 ```
 
 #### 镜像
+
+查找镜像
+```shell
+$ docker search httpd
+```
+
 拉取镜像
 ```shell
 $ docker pull nginx:alpine
 $ docker pull NAME[:TAG]    #NAME是仓库名称,TAG是镜像标签
 ```
+
 列出本地镜像
 
 ```shell
@@ -85,21 +92,60 @@ $ docker image ls
 $ docker inspect nginx:alpine
 ```
 
-导出镜像到文件中
-```shell
-$ docker save -o nginx-alpine.tar nginx:alpine
-```
-
-从文件中加载镜像
-```shell
-$ docker load -i nginx-alpine.tar
-```
-
 设置镜像标签
 ```shell
 $ docker tag <imageID> <Registry>/<Repositories>/<Name>:<Tag>
 
-$ docker tag nginx:alpine nginx:tiny
+$ docker tag <imageID> <Name>:<Tag>
+```
+
+构建镜像:通过Dockerfile
+```shell
+$ cat> Dockerfile<<EOF
+FROM    centos:6.7
+MAINTAINER      Fisher "fisher@sudops.com"
+
+RUN     /bin/echo 'root:123456' |chpasswd
+RUN     useradd runoob
+RUN     /bin/echo 'runoob:123456' |chpasswd
+RUN     /bin/echo -e "LANG=\"en_US.UTF-8\"" >/etc/default/local
+EXPOSE  22
+EXPOSE  80
+CMD     /usr/sbin/sshd -D
+EOF
+
+# -t ：指定要创建的目标镜像名
+# . ：Dockerfile 文件所在目录，可以指定Dockerfile 的绝对路径
+$ docker build -t runoob/centos:6.7 .
+```
+
+构建镜像:通过现有container
+```shell
+$ docker commit -m "add a test file" -a "docker Newbee" fe76948987e7 test:0.1
+```
+
+构建镜像:通过导出和导入
+```shell
+# 导出
+$ docker export <container> > ubuntu.tar
+
+# 导入
+$ cat docker/ubuntu.tar | docker import - ubuntu:v1
+
+# 也可以通过指定 URL 或者某个目录来导入
+$ docker import http://example.com/exampleimage.tgz example/imagerepo
+```
+
+构建镜像: 打包和解压
+```shell
+# 将本地镜像打包
+$ docker -o save karl.tar karl:0.1
+# 或
+$ docker save karl:0.1 > karl:0.1.tar
+
+# 将打包的镜像解压到本地镜像并打tag
+$ docker load --input karl.tar
+$ docker tag <ImageID> karl:0.1
 ```
 
 部署个人镜像仓库
@@ -149,6 +195,15 @@ $ docker ps
 
 # 查看全部状态的容器列表
 $ docker ps -a
+
+# 查看容器log
+$ docker logs <container>
+
+# 持续查看容器log
+$ docker logs -f <container>
+
+# 查看 Docker 的底层信息
+$ docker inspect bf08b7f2cd89
 ```
 
 启动容器
@@ -161,6 +216,29 @@ $ docker run --name nginx -ti nginx:alpine /bin/sh
 
 # 映射端口,把容器的端口映射到宿主机中,-p <host_port>:<container_port>
 $ docker run --name nginx -d -p 8080:80 nginx:alpine
+```
+
+第一个docker程序
+```shell
+$ docker run ubuntu:18.04 /bin/echo "Hello world"
+Unable to find image 'ubuntu:18.04' locally
+18.04: Pulling from library/ubuntu
+23884877105a: Pull complete 
+bc38caa0f5b9: Pull complete 
+2910811b6c42: Pull complete 
+36505266dcc6: Pull complete 
+Digest: sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
+Status: Downloaded newer image for ubuntu:18.04
+Hello world
+```
+
+交互式容器
+```shell
+# -t: 在新容器内指定一个伪终端或终端。
+# -i: 允许你对容器内的标准输入 (STDIN) 进行交互。
+# 可以通过运行 exit 命令或者使用 CTRL+D 来退出容器
+$ docker run -it ubuntu:18.04 /bin/bash
+root@0123ce188bd8:/#
 ```
 
 容器数据持久化
@@ -189,6 +267,11 @@ $ docker logs --tail=10 -f nginx
 ```shell
 $ docker exec -ti nginx /bin/sh
 $ docker exec -ti <container_id_or_name> hostname
+```
+
+查看端口
+```
+$ docker port <container>
 ```
 
 主机与容器之间拷贝数据

@@ -52,7 +52,7 @@ aws eks update-kubeconfig \
 --region ap-southeast-1 \
 --name aws94-c01-kbm10 \
 --profile int-xmn \
---role-arn arn:aws:iam::524621635179:role/cops-eks-admin-aws94-c01-kbm10
+--role-arn arn:aws:iam::1234567890:role/cops-eks-admin-aws94-c01-kbm10
 ```
 
 #### 查看所有pods
@@ -119,7 +119,7 @@ aws eks update-kubeconfig \
 --region ap-southeast-1 \
 --name aws94-c01-kbm10 \
 --profile int-xmn \
---role-arn arn:aws:iam::524621635179:role/cops-eks-admin-aws94-c01-kbm10
+--role-arn arn:aws:iam::123456789:role/cops-eks-admin-aws94-c01-kbm10
 ```
 
 

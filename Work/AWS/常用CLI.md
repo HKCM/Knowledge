@@ -303,7 +303,7 @@ $0 -p <aws_profile> -r <region> -s <stack_name>
 Example1:
 It will delete all failed changeset 
 
-./Mac/OneClickTools/cleanup_changeset -p int-developer -r ap-southeast-1 -s int-rc-auth-interface-test-pre-infra
+./Mac/OneClickTools/cleanup_changeset -p int-developer -r ap-southeast-1 -s int-auth-interface-test-pre-infra
 "
   exit 0
 }
